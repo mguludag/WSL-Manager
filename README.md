@@ -1,5 +1,5 @@
 # WSL-Distro-Downloader-Installer
-This is PowerShell script for linux distro auto download and installation to wsl plus adding to Windows Terminal with icon!
+This is PowerShell script for linux distro download and installation to wsl plus adding to Windows Terminal with icon!
 
 <center>
 <img src="https://github.com/mguludag/WSL-Distro-Downloader-Installer/blob/main/img.png?raw=true">
