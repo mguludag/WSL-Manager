@@ -2,7 +2,7 @@
 This is PowerShell script for Fedora 33 auto download and installation plus adding to Windows Terminal with icon!
 
 <center>
-![](./Screenshot%202020-12-09%20072125.png)
+![](./Screenshot 2020-12-09 072125.png)
 </center>
 
 ## Download
