@@ -2,7 +2,7 @@
 This is PowerShell script for Fedora 33 auto download and installation plus adding to Windows Terminal with icon!
 
 <center>
-![img](https://github.com/mguludag/Fedora-33-WSL-Installer/blob/main/img.png?raw=true)
+<img src="https://github.com/mguludag/Fedora-33-WSL-Installer/blob/main/img.png?raw=true">
 </center>
 
 ## Download
