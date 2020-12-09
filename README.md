@@ -1,9 +1,9 @@
 # Fedora-33-WSL-Installer
 This is PowerShell script for Fedora 33 auto download and installation plus adding to Windows Terminal with icon!
 
-
-![](https://raw.githubusercontent.com/mguludag/Fedora-33-WSL-Installer/main/fedora-33_wsl_install.ps1)
-
+<center>
+![](https://raw.githubusercontent.com/mguludag/Fedora-33-WSL-Installer/main/Screenshot%202020-12-09%20072125.png)
+</center>
 
 ## Download
 <a href="https://github.com/mguludag/Fedora-33-WSL-Installer/releases/download/1.0/fedora-33_wsl_install.ps1"><img alt="GitHub Releases" src="https://img.shields.io/github/downloads/mguludag/Fedora-33-WSL-Installer/latest/total?label=Download%20Script&style=for-the-badge">
