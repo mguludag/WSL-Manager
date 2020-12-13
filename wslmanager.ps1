@@ -50,7 +50,8 @@ function install {
 	$DistroName = Read-Host -Prompt 'Input your distro name'
 	$DistroPath = "$SetupFolder/$DistroName"
 	$DistroIcon = Read-Host -Prompt 'Input your distro icon name or drag-drop icon here'
-	if ($DistroIcon.Length -gt 0) {
+	$DistroIconFilename=$DistroIcon
+	if ($DistroIcon.Length -gt 0 -and (Test-Path $DistroIcon)) {
 		$DistroIconFilename = Split-Path $DistroIcon -leaf
 		Copy-Item -Path $DistroIcon -Destination $TermIconPath
 	}
@@ -94,9 +95,11 @@ function install {
 		Start-BitsTransfer -Source "$DistroURL" -Destination "$DistroPath/$DistroName.tar.xz"
 	}
 	else {
-		Write-Host "Copying $DistroName Image"
-		$DistroFilename = Split-Path $DistroURL -leaf
-		Copy-Item -Path $DistroURL -Destination "$DistroPath/"
+		if(Test-Path $DistroURL){
+			Write-Host "Copying $DistroName Image"
+			$DistroFilename = Split-Path $DistroURL -leaf
+			Copy-Item -Path $DistroURL -Destination "$DistroPath/"
+			}
 	}
 
 	Write-Host "Extracting..."
@@ -184,9 +187,18 @@ function export {
 }
 
 function import {
+	$newline = "`r`n"
 	$SetupFolder = "$env:LOCALAPPDATA/Programs"
+	$TermIconPath = "$env:LOCALAPPDATA\packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\RoamingState"
+	$TermSettingsPath = "$env:LOCALAPPDATA\packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
 	$distname = Read-Host "Input the distro name to import"
 	$distfile = Read-Host "Input the path of local file (alternatively drag-drop the file here) to import"
+	$disticon = Read-Host -Prompt 'Input your distro icon name or drag-drop icon here'
+	$disticonfilename = $disticon
+	if ($disticon.Length -gt 0 -and (Test-Path $disticon)) {
+		$disticonfilename = Split-Path $disticon -leaf
+		Copy-Item -Path $disticon -Destination $TermIconPath
+	}
 	if ($distname.Length -gt 0 -and (Test-Path $distfile)) {
 		$result = (wsl --list)
 		$arr = @()
@@ -201,6 +213,28 @@ function import {
 		}
 		wsl --import $distname $SetupFolder/$distname $distfile
 		Write-Host $distname" imported!"
+		
+		$users=wsl -d $distname -u root getent passwd '{1000..60000}'
+		Write-Host
+		Write-Host "Users in "$distname
+		ForEach-Object { $users } | Select-Object @{n = "Index"; e = { ($users.indexof($_)) } }, @{n = "Username"; e = { ($_.split(':')[0]) } }, @{n = "Userid"; e = { ($_.split(':')[2]) } } | Out-String
+		
+		Write-Host "------------------------------------------------------------"
+		$idx = Read-Host 'Input index of user to set default (0 - '($users.Length-1)')'
+		
+		if (($idx -ge 0) -and ($idx -le $index)) {
+			$uid=($users[$idx].split(':')[2])
+			Write-Host "Setting default user to"($users[$idx].split(':')[0])
+			Get-ItemProperty Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Lxss\*\ DistributionName | Where-Object -Property DistributionName -eq $distname  | Set-ItemProperty -Name DefaultUid -Value $uid
+			
+			if ($disticonfilename.Length -gt 3) {
+				$old = '"name": "' + $distname + '",'
+				$new = '"name": "' + $distname + '",' + $newline + '			"icon": "ms-appdata:///roaming/' + $disticonfilename + '",' + $newline
+				((Get-Content "$TermSettingsPath\settings.json") -replace $old, $new) | set-content -path "$TermSettingsPath\settings.json"
+			}
+		}
+		#0..($users.Length-1)|%{$users[$_]=$users[$_].split(':')[0]}
+		
 	}
 	Write-Host "Returning to main menu..."
 	Start-Sleep -s 2
