@@ -3,6 +3,15 @@ This is PowerShell script for linux distro download and installation to wsl plus
 
 ## Download
 <a href="https://github.com/mguludag/WSL-Distro-Downloader-Installer/releases/latest/download/wslmanager.zip"><img alt="GitHub Releases" src="https://img.shields.io/github/downloads/mguludag/WSL-Distro-Downloader-Installer/latest/total?label=Download%20Script&style=for-the-badge">
+  
+## Features
+- Install distro from local file
+- Download and install distro from URL
+- Auto install essential utils to distro for create user
+- Adding icon to windows terminal menu
+- Export any distro to selected path
+- Import distro from local file and show choice of set default user
+- Reset password of any user
 
 ### WSL Manager main menu
 <center>
