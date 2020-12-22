@@ -1,1 +1,0 @@
-powershell -ExecutionPolicy Bypass -File ./wsl_distro_installer.ps1
