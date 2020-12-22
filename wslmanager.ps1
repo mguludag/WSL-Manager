@@ -213,7 +213,7 @@ function import {
 		}
 		wsl --import $distname $SetupFolder/$distname $distfile
 		Write-Host $distname" imported!"
-		
+		Write-Host "Searching users in "$distname
 		$users=wsl -d $distname -u root getent passwd '{1000..60000}'
 		Write-Host
 		Write-Host "Users in "$distname
@@ -244,10 +244,21 @@ function import {
 function resetpasswd {
 	$idx = Read-Host "Select Index number to reset distro password (0 - $index)"
 	if (($idx -ge 0) -and ($idx -le $index)) {
-		$usr = Read-Host "Input the username to reset password"
-		$wstr = "Reset password for "+$usr+" at "+$Global:name[$idx]+", continue?"
-		$wstr | Write-Warning -WarningAction Inquire
-		wsl -d $Global:name[$idx] --user root passwd $usr
+		Write-Host "Searching users in "$Global:name[$idx]
+		$users=wsl -d $Global:name[$idx] -u root getent passwd '{1000..60000}'
+		Write-Host
+		Write-Host "Users in "$Global:name[$idx]
+		ForEach-Object { $users } | Select-Object @{n = "Index"; e = { ($users.indexof($_)) } }, @{n = "Username"; e = { ($_.split(':')[0]) } }, @{n = "Userid"; e = { ($_.split(':')[2]) } } | Out-String
+		
+		Write-Host "------------------------------------------------------------"
+		$idx = Read-Host 'Input index of user to reset password (0 - '($users.Length-1)')'
+		
+		if (($idx -ge 0) -and ($idx -le $index)) {
+			$usr=($users[$idx].split(':')[0])
+			$wstr = "Reset password for "+$usr+" at "+$Global:name[$idx]+", continue?"
+			$wstr | Write-Warning -WarningAction Inquire
+			wsl -d $Global:name[$idx] --user root passwd $usr
+		}
 	}
 	Write-Host "Returning to main menu..."
 	Start-Sleep -s 2
