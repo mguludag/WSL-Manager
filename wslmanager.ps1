@@ -187,8 +187,8 @@ function change_version {
 
 }
 function shrink {
-	$idx = Read-Host "Select Index number to shrink distro vhdx(0 - $index)"
-	if (($idx -ge 0) -and ($idx -le $index)) {
+	$idx = Read-Host "Select Index number to shrink distro vhdx(0 - $Global:index)"
+	if (($idx -ge 0) -and ($idx -le $Global:index)) {
 		$wstr = "Shrink "+$Global:name[$idx]+" wsl disk, continue?"
 		$wstr | Write-Warning -WarningAction Inquire
 		wsl -d $Global:name[$idx] -u root fstrim /
