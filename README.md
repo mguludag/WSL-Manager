@@ -1,6 +1,15 @@
 # WSL-Manager
 This is PowerShell script for linux distro download and installation to wsl plus adding to Windows Terminal with icon and reset password, import/export distro!
 
+## Use
+
+```powershell
+Set-ExecutionPolicy RemoteSigned -scope Process -Force
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mguludag/WSL-Manager/main/wslmanager.ps1" -OutFile $pwd/wslmanager.ps1
+./wslmanager.ps1
+exit
+```
+
 ## Download
 <a href="https://github.com/mguludag/WSL-Manager/releases/latest/download/wslmanager.zip"><img alt="GitHub Releases" src="https://img.shields.io/github/downloads/mguludag/WSL-Manager/latest/total?label=Download%20Script&style=for-the-badge">
   
