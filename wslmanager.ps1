@@ -197,13 +197,6 @@ function change_version {
 
 }
 function shrink {
-    # for admin privileges if isn't running as an admin
-    if (!(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole(
-        [Security.Principal.WindowsBuiltInRole]::Administrator)) {
-        #elevate script and exit current non-elevated runtime
-        Start-Process -FilePath 'powershell' -ArgumentList ('-ExecutionPolicy', 'Bypass', '-File', $Global:MyInvocation.MyCommand.Source, "S" | % { $_ }) -Verb RunAs
-       # exit
-    }
     $idx = Read-Host "Select Index number to shrink distro vhdx(0 - $Global:index)"
     if (($idx -ge 0) -and ($idx -le $Global:index)) {
         $wstr = "Shrink " + $Global:name[$idx] + " wsl disk, continue?"
@@ -213,13 +206,23 @@ function shrink {
         wsl --shutdown
         $vdisk = $Global:path[$idx] + "\ext4.vhdx"
 		
-        @"
+		$diskpartcmd = @"
 select vdisk file=$vdisk
 attach vdisk readonly
 compact vdisk
 detach vdisk
 exit
-"@ | diskpart
+"@
+		
+		Out-File -FilePath $pwd/diskpartcmd.txt -InputObject $diskpartcmd
+		Start-Sleep -s 2
+		if (!(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole(
+        [Security.Principal.WindowsBuiltInRole]::Administrator)) {
+			Start-Process -FilePath 'diskpart' -ArgumentList ('`/s', "$pwd/diskpartcmd.txt" | % { $_ }) -Verb RunAs
+		}
+		Start-Sleep -s 2
+		Remove-Item "$pwd/diskpartcmd.txt"
+
     }
     Write-Host "Returning to main menu..."
     Start-Sleep -s 2
