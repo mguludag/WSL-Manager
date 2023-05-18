@@ -201,7 +201,7 @@ function shrink {
     if (!(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole(
         [Security.Principal.WindowsBuiltInRole]::Administrator)) {
         #elevate script and exit current non-elevated runtime
-        Start-Process -FilePath 'powershell' -ArgumentList ('-ExecutionPolicy', 'Bypass', '-File', $Global:MyInvocation.MyCommand.Source, "S" | % { $_ }) -Verb RunAs
+        Start-Process -FilePath 'powershell' -ArgumentList ('-ExecutionPolicy', 'Bypass', '-File', $MyInvocation.MyCommand.Source, "S" | % { $_ }) -Verb RunAs
         exit
     }
     $idx = Read-Host "Select Index number to shrink distro vhdx(0 - $Global:index)"
