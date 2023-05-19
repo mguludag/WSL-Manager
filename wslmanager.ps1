@@ -218,7 +218,7 @@ exit
 		Start-Sleep -s 2
 		if (!(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole(
         [Security.Principal.WindowsBuiltInRole]::Administrator)) {
-			Start-Process -FilePath 'cmd' -ArgumentList ('`/K', "diskpart $pwd/diskpartcmd.txt" | % { $_ }) -Verb RunAs
+			Start-Process -FilePath 'cmd' -ArgumentList ('--%', '`/K', "diskpart $pwd/diskpartcmd.txt" | % { $_ }) -Verb RunAs
 		}
 		Start-Sleep -s 2
 		Remove-Item "$pwd/diskpartcmd.txt"
