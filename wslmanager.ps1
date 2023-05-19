@@ -218,7 +218,7 @@ exit
 		Start-Sleep -s 2
 		if (!(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole(
         [Security.Principal.WindowsBuiltInRole]::Administrator)) {
-			$proc = Start-Process -FilePath 'cmd' -ArgumentList ('--%', '`/K', "diskpart /s $pwd/diskpartcmd.txt" | % { $_ }) -NoNewWindow -Wait -Verb RunAs
+			$proc = Start-Process -FilePath 'cmd' -ArgumentList ('--%', '`/K', "diskpart /s $pwd/diskpartcmd.txt" | % { $_ }) -Verb RunAs -NoNewWindow -Wait 
 		}
 		$proc.WaitForExit()
 		Start-Sleep -s 2
