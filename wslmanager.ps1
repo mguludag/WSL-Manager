@@ -224,7 +224,7 @@ exit
 		Start-Sleep -s 2
 		if (!(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole(
         [Security.Principal.WindowsBuiltInRole]::Administrator)) {
-			$proc = Start-Process -FilePath 'cmd' -ArgumentList ('`/K', "$pwd/diskpartbat.bat" | % { $_ }) -Verb RunAs -Passthru
+			$proc = Start-Process -FilePath '$pwd/diskpartbat.bat' -Verb RunAs -Passthru
 			do {start-sleep -Milliseconds 500}
 			until ($proc.HasExited)
 		}
