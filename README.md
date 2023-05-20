@@ -1,5 +1,5 @@
 # WSL-Manager
-This is PowerShell script for linux distro download and installation to wsl plus adding to Windows Terminal with icon and reset password, import/export distro!
+This is PowerShell script for linux distro download and installation to wsl plus adding to Windows Terminal with icon and reset password, shrink vhdx, import/export distro!
 
 ## Use
 
