@@ -24,7 +24,7 @@ exit
 
 ### WSL Manager main menu
 <center>
-<img src="https://github.com/mguludag/WSL-Distro-Downloader-Installer/blob/main/wslmanagermain.png?raw=true">
+<img src="https://github.com/mguludag/WSL-Manager/blob/main/Screenshot%202023-05-20%20115821.png?raw=true">
 </center>
 
 ### Icons in Windows Terminal menu
