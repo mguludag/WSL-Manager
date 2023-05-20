@@ -213,17 +213,24 @@ compact vdisk
 detach vdisk
 exit
 "@
+
+$diskpartbat = @"
+dıskpart /s $pwd/diskpartcmd.txt
+exit
+"@
 		
 		Out-File -FilePath $pwd/diskpartcmd.txt -InputObject $diskpartcmd
+		Out-File -FilePath $pwd/diskpartbat.bat -InputObject $diskpartbat
 		Start-Sleep -s 2
 		if (!(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole(
         [Security.Principal.WindowsBuiltInRole]::Administrator)) {
-			$proc = Start-Process -FilePath 'cmd' -ArgumentList ('`/K', "diskpart /s $pwd/diskpartcmd.txt" | % { $_ }) -Verb RunAs -Passthru
+			$proc = Start-Process -FilePath 'cmd' -ArgumentList ('`/K', "$pwd/diskpartbat.bat" | % { $_ }) -Verb RunAs -Passthru
 			do {start-sleep -Milliseconds 500}
 			until ($proc.HasExited)
 		}
 		Start-Sleep -s 2
 		Remove-Item "$pwd/diskpartcmd.txt"
+		Remove-Item "$pwd/diskpartbat.bat"
 
     }
     Write-Host "Returning to main menu..."
