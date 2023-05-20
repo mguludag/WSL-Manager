@@ -214,7 +214,7 @@ detach vdisk
 exit
 "@
 
-		Out-File -FilePath $pwd/diskpartcmd.txt -InputObject $diskpartcmd
+		Out-File -FilePath $pwd/diskpartcmd.txt -InputObject $diskpartcmd -Encoding ascii
 		Start-Sleep -s 2
 		if (!(New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole(
         [Security.Principal.WindowsBuiltInRole]::Administrator)) {
