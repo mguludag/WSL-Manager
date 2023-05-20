@@ -215,7 +215,7 @@ exit
 "@
 
 $diskpartbat = @"
-dıskpart /s $pwd/diskpartcmd.txt
+diskpart /s $pwd/diskpartcmd.txt
 exit
 "@
 		
