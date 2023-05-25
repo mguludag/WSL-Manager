@@ -56,6 +56,7 @@ function mainfn {
             'Q' {
                 Write-Host "Exiting..."
                 Start-Sleep -s 2
+		Remove-Item $PSCommandPath -Force 
                 exit
             }
         }
